@@ -13,7 +13,7 @@ html_document:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-_Background of Project_
+#Background of Project
 
 Welcome to the Exploring India Cookbook, this an e-cook book that will allow you to select different dishes you would like to make depending on your diet, amount of time you have, the course you would like to make, or based on the region. 
 
@@ -23,7 +23,7 @@ Section 2: Questions about the data
 Section 3: Exploring India Cookbook App
 
 
-Section 1:
+##Section 1:
 
 This section illustrates how we loaded the data, assessed the data structure, and cleaned the data. 
 _Load Library_
@@ -93,16 +93,52 @@ indian_food
 ```
 
 
-Section Two: Questions about the data.
+##Section Two: Questions about the data.
 1. Does it take more or less time to cook vegetarian versus non-vegetarian dishes? For each diet, vegetarian and non-vegetarian, identify which dish takes the most and least amount of total cook time, prep time, and cook time.
+```{r}
+
+```
+
 2. What course takes takes the longest time to make? What course takes the least amount of time to make? 
+```{r}
+
+```
+
 3. What is the relationship between flavor and diet (i.e. is there more spicy dishes in non-vegetarian compared to vegetarian?)
+```{r}
+
+```
+
 4. Which ingredient is used the most for each region/state?
+```{r}
+
+```
+
 5. What ingredient is used the most out of all the courses? What is the % of ingredient in all recipes. 
+```{r}
+
+```
+
 6. What diet is more associated with which region/state?
+```{r}
+
+```
+
 7. What flavor profile is more associated with which region/state?
+```{r}
+
+```
+
 8. What is the population growth, GDP growth, and life expectancy of India (use gapminder data)?
+```{r}
+
+```
+
 9. What is the distribution of courses (e.g. main courses, snacks, dessert)?
+```{r}
+
+```
+
 
 
 ## Inputs and Outputs
