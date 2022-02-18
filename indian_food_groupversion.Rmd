@@ -1,0 +1,150 @@
+---
+title: "Indian Food Cookbook"
+author: "Emily, Ellyn, Rachel, Gabe"
+date: "2/17/2022"
+output: html_notebook
+runtime: shiny
+html_document: 
+    theme: spacelab
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+_Background of Project_
+
+Welcome to the Exploring India Cookbook, this an e-cook book that will allow you to select different dishes you would like to make depending on your diet, amount of time you have, the course you would like to make, or based on the region. 
+
+This project is separated into three parts:
+Section 1: Loading and Cleaning the Data
+Section 2: Questions about the data
+Section 3: Exploring India Cookbook App
+
+
+Section 1:
+
+This section illustrates how we loaded the data, assessed the data structure, and cleaned the data. 
+_Load Library_
+
+```{r}
+library(tidyverse)
+library(RColorBrewer)
+library(paletteer)
+library(janitor)
+library(here)
+library(naniar)
+
+```
+```{r}
+getwd()
+```
+
+
+
+1. Load the data. 
+```{r}
+indian_food<- read_csv(here("indian_food_data.csv"))%>% clean_names()
+
+```
+2. Structure of the data. 
+```{r}
+glimpse(indian_food)
+```
+
+```{r}
+summary(indian_food)
+```
+What are the variables? 
+```{r}
+names(indian_food)
+```
+
+Dealing with NA's
+
+_NA's in data is symbolized by a "-1"_
+```{r}
+indian_food<-indian_food%>%
+  na_if("-1")
+```
+
+Counting Number of NA's
+```{r}
+naniar::miss_var_summary(indian_food)
+
+```
+_Split Ingredients Into Their Own Row_
+
+We noticed that the ingredients were listed in one row, so we separated them into their own rows. 
+
+```{r}
+indian_food<-indian_food%>%
+  mutate_all(tolower)%>%
+  transform(ingredients=str_split(ingredients,","))%>%
+  unnest(ingredients)
+indian_food
+```
+Adding Total Cook Time column which combines cook time and prep time. 
+```{r}
+indian_food<-indian_food%>%
+  mutate(total_cook_time=as.numeric(cook_time)+as.numeric(prep_time))
+indian_food
+```
+
+
+Section Two: Questions about the data.
+1. Does it take more or less time to cook vegetarian versus non-vegetarian dishes? For each diet, vegetarian and non-vegetarian, identify which dish takes the most and least amount of total cook time, prep time, and cook time.
+2. What course takes takes the longest time to make? What course takes the least amount of time to make? 
+3. What is the relationship between flavor and diet (i.e. is there more spicy dishes in non-vegetarian compared to vegetarian?)
+4. Which ingredient is used the most for each region/state?
+5. What ingredient is used the most out of all the courses? What is the % of ingredient in all recipes. 
+6. What diet is more associated with which region/state?
+7. What flavor profile is more associated with which region/state?
+8. What is the population growth, GDP growth, and life expectancy of India (use gapminder data)?
+9. What is the distribution of courses (e.g. main courses, snacks, dessert)?
+
+
+## Inputs and Outputs
+
+You can embed Shiny inputs and outputs in your document. Outputs are automatically updated whenever inputs change.  This demonstrates how a standard R plot can be made interactive by wrapping it in the Shiny `renderPlot` function. The `selectInput` and `sliderInput` functions create the input widgets used to drive the plot.
+
+```{r eruptions, echo=FALSE}
+inputPanel(
+  selectInput("n_breaks", label = "Number of bins:",
+              choices = c(10, 20, 35, 50), selected = 20),
+  
+  sliderInput("bw_adjust", label = "Bandwidth adjustment:",
+              min = 0.2, max = 2, value = 1, step = 0.2)
+)
+
+renderPlot({
+  hist(faithful$eruptions, probability = TRUE, breaks = as.numeric(input$n_breaks),
+       xlab = "Duration (minutes)", main = "Geyser eruption duration")
+  
+  dens <- density(faithful$eruptions, adjust = input$bw_adjust)
+  lines(dens, col = "blue")
+})
+```
+
+## Embedded Application
+
+It's also possible to embed an entire Shiny application within an R Markdown document using the `shinyAppDir` function. This example embeds a Shiny application located in another directory:
+
+```{r tabsets, echo=FALSE}
+shinyAppDir(
+  system.file("examples/06_tabsets", package = "shiny"),
+  options = list(
+    width = "100%", height = 550
+  )
+)
+```
+
+Note the use of the `height` parameter to determine how much vertical space the embedded application should occupy.
+
+You can also use the `shinyApp` function to define an application inline rather then in an external directory.
+
+In all of R code chunks above the `echo = FALSE` attribute is used. This is to prevent the R code within the chunk from rendering in the document alongside the Shiny components.
+
+
+
