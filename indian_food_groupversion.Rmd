@@ -35,12 +35,12 @@ library(paletteer)
 library(janitor)
 library(here)
 library(naniar)
-
+library(gapminder)
 ```
+
 ```{r}
 getwd()
 ```
-
 
 
 1. Load the data. 
