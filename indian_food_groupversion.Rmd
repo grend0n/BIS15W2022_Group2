@@ -91,6 +91,10 @@ indian_food<-indian_food%>%
   mutate(total_cook_time=as.numeric(cook_time)+as.numeric(prep_time))
 indian_food
 ```
+```{r}
+indian_food%>%
+  count(state)
+```
 
 
 ##Section Two: Questions about the data.
@@ -111,12 +115,32 @@ indian_food
 
 4. Which ingredient is used the most for each region/state?
 ```{r}
-
+indian_food%>%
+  group_by(region, ingredients)%>%
+  summarize(n_ingredients=n())%>%
+  arrange(desc(n_ingredients))
+```
+```{r}
+indian_food%>%
+  group_by(state, ingredients)%>%
+  summarize(n_ingredients=n())%>%
+  arrange(desc(n_ingredients))
 ```
 
-5. What ingredient is used the most out of all the courses? What is the % of ingredient in all recipes. 
-```{r}
 
+5. What are the top 10 ingredients used the most out of all the courses? What is the % of ingredient in all recipes. 
+
+Sugar
+```{r}
+indian_food%>%
+  count(ingredients)%>%
+  arrange(desc(n))%>%
+  head(n=10)
+```
+```{r}
+indian_food%>%
+  count(name)
+  
 ```
 
 6. What diet is more associated with which region/state?
