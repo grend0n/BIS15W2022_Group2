@@ -36,6 +36,8 @@ library(janitor)
 library(here)
 library(naniar)
 library(gapminder)
+library(ggVennDiagram)
+library(ggwordcloud)
 ```
 
 ```{r}
@@ -46,7 +48,6 @@ getwd()
 1. Load the data. 
 ```{r}
 indian_food<- read_csv(here("indian_food_data.csv"))%>% clean_names()
-
 ```
 2. Structure of the data. 
 ```{r}
@@ -154,7 +155,10 @@ indian_food%>%
 
 6. What diet is more associated with which region/state?
 ```{r}
-
+indian_food%>%
+select("region", "diet")%>%
+arrange(diet)%>%
+  count(region, diet)
 ```
 
 7. What flavor profile is more associated with which region/state?
@@ -187,7 +191,22 @@ flavor_region
 
 8. What is the population growth, GDP growth, and life expectancy of India (use gapminder data)?
 ```{r}
+gapminder
+```
+```{r}
+india_gapminder<-gapminder%>%
+filter(country=="India")
+india_gapminder
+```
+```{r}
+india_gapminder$year<-as.factor(india_gapminder$year)
+```
 
+```{r}
+india_gapminder%>%
+  ggplot(aes(x=country, y=year, fill=lifeExp)) + 
+  geom_tile() +
+  scale_fill_gradient(low="orange", high="green4")
 ```
 
 9. What is the distribution of courses (e.g. main courses, snacks, dessert)?
