@@ -36,6 +36,7 @@ library(janitor)
 library(here)
 library(naniar)
 library(gapminder)
+library(ggwordcloud)
 ```
 
 ```{r}
@@ -92,6 +93,10 @@ indian_food<-indian_food%>%
 indian_food
 ```
 ```{r}
+class(indian_food$cook_time)
+```
+
+```{r}
 indian_food%>%
   count(state)
 ```
@@ -100,6 +105,10 @@ indian_food%>%
 ##Section Two: Questions about the data.
 1. Does it take more or less time to cook vegetarian versus non-vegetarian dishes? For each diet, vegetarian and non-vegetarian, identify which dish takes the most and least amount of total cook time, prep time, and cook time.
 ```{r}
+indian_food%>%
+  filter(!is.na(total_cook_time))%>%
+  group_by(diet)%>%
+  summarize(mean_total_time=mean(total_cook_time))
 
 ```
 
@@ -127,15 +136,22 @@ flavor_diet
 indian_food%>%
   group_by(region, ingredients)%>%
   summarize(n_ingredients=n())%>%
-  arrange(desc(n_ingredients))
+  arrange(desc(n_ingredients))%>%
+ 
 ```
 ```{r}
 indian_food%>%
+  filter(!state=="NA")%>%
   group_by(state, ingredients)%>%
   summarize(n_ingredients=n())%>%
   arrange(desc(n_ingredients))
 ```
 
+```{r}
+state%>%
+  group_by(state, ingredients)%>%
+  summarise(max=max(n_ingredients))
+```
 
 5. What are the top 10 ingredients used the most out of all the courses? What is the % of ingredient in all recipes. 
 
@@ -192,9 +208,17 @@ flavor_region
 
 9. What is the distribution of courses (e.g. main courses, snacks, dessert)?
 ```{r}
-
+indian_food%>%
+  ggplot(aes(x=course, fill=course))+geom_bar()
 ```
 
+
+```{r}
+indian_food%>%
+  ggplot(aes(ingredients, region,  fill= total_cook_time)) + 
+  geom_tile()+
+  scale_fill_gradient2(low="yellow", mid = "white", high="blue")+coord_flip()
+```
 
 
 ## Inputs and Outputs
