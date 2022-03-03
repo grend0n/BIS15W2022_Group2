@@ -264,7 +264,9 @@ agr_diet %>%
 
 **Shiny App
 ```{r}
+library(DT)
 library(shiny)
+
 ui <- basicPage(
   h2("Indian Food Cookbook"),
   DT::dataTableOutput("mytable")
@@ -274,13 +276,10 @@ server <- function(input, output) {
   output$mytable = DT::renderDataTable({
     indian_food
   })
-}
-  
-
+} 
+shinyApp(ui,server)
 ```
 
-```{r}
-getwd()
-```
+
 
 
