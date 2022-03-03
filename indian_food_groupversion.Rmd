@@ -238,12 +238,7 @@ server <- function(input, output) {
   })
 }
   
-<<<<<<< HEAD
-shinyApp(ui, server)
-=======
-  dens <- density(faithful$eruptions, adjust = input$bw_adjust)
-  lines(dens, col = "blue")
-})
+
 ```
 
 ```{r}
