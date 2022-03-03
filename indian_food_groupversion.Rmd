@@ -93,6 +93,10 @@ indian_food<-indian_food%>%
 indian_food
 ```
 ```{r}
+class(indian_food$cook_time)
+```
+
+```{r}
 indian_food%>%
   count(state)
 ```
@@ -101,6 +105,10 @@ indian_food%>%
 ##Section Two: Questions about the data.
 1. Does it take more or less time to cook vegetarian versus non-vegetarian dishes? For each diet, vegetarian and non-vegetarian, identify which dish takes the most and least amount of total cook time, prep time, and cook time.
 ```{r}
+indian_food%>%
+  filter(!is.na(total_cook_time))%>%
+  group_by(diet)%>%
+  summarize(mean_total_time=mean(total_cook_time))
 
 ```
 
@@ -128,15 +136,22 @@ flavor_diet
 indian_food%>%
   group_by(region, ingredients)%>%
   summarize(n_ingredients=n())%>%
-  arrange(desc(n_ingredients))
+  arrange(desc(n_ingredients))%>%
+ 
 ```
 ```{r}
 indian_food%>%
+  filter(!state=="NA")%>%
   group_by(state, ingredients)%>%
   summarize(n_ingredients=n())%>%
   arrange(desc(n_ingredients))
 ```
 
+```{r}
+state%>%
+  group_by(state, ingredients)%>%
+  summarise(max=max(n_ingredients))
+```
 
 5. What are the top 10 ingredients used the most out of all the courses? What is the % of ingredient in all recipes. 
 
@@ -159,6 +174,14 @@ indian_food%>%
 select("region", "diet")%>%
 arrange(diet)%>%
   count(region, diet)
+```
+```{r}
+diet_region<-indian_food%>%
+select("region", "diet")%>%
+  filter(!is.na(region))%>%
+  count(region, diet)%>%
+  arrange(desc(n))
+diet_region
 ```
 
 7. What flavor profile is more associated with which region/state?
@@ -193,27 +216,55 @@ flavor_region
 ```{r}
 gapminder
 ```
+
 ```{r}
 india_gapminder<-gapminder%>%
 filter(country=="India")
 india_gapminder
 ```
+
 ```{r}
 india_gapminder$year<-as.factor(india_gapminder$year)
 ```
 
 ```{r}
-india_gapminder%>%
-  ggplot(aes(x=country, y=year, fill=lifeExp)) + 
-  geom_tile() +
-  scale_fill_gradient(low="orange", high="green4")
+ui <- dashboardPage(
+  dashboardHeader(title = "India Gapminder"), 
+  dashboardSidebar(disable = T),
+  dashboardBody(
+    fluidRow(box(title = "Options", width = 5, 
+               selectInput("y", "Information", choices = c("lifeExp","pop","gdpPercap"), selected = "lifeExp")
+               ),
+  plotOutput("plot", width = "500px", height = "400px"))
+    )
+  )
+               
+
+server <- function(input, output, session) { 
+  output$plot <- renderPlot({
+  india_gapminder%>%
+  ggplot(aes_string(x=india_gapminder$year, y=input$y, group=1))+
+  geom_line()+
+  theme(axis.text.x = element_text( hjust = 0.5, size = 8))
+  }) 
+}
+shinyApp(ui, server)
 ```
+
 
 9. What is the distribution of courses (e.g. main courses, snacks, dessert)?
 ```{r}
-
+indian_food%>%
+  ggplot(aes(x=course, fill=course))+geom_bar()
 ```
 
+
+```{r}
+indian_food%>%
+  ggplot(aes(ingredients, region,  fill= total_cook_time)) + 
+  geom_tile()+
+  scale_fill_gradient2(low="yellow", mid = "white", high="blue")+coord_flip()
+```
 
 
 ## Inputs and Outputs
