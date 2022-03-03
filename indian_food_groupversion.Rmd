@@ -98,11 +98,16 @@ indian_food
 ```{r}
 indian_food_together<- read_csv(here("indian_food_data.csv"))%>% clean_names()
 
+indian_food_together <- indian_food_together %>% 
+  mutate_all(tolower)
+
 indian_food_together <-indian_food_together%>%
   na_if("-1")
 
 indian_food_together <- indian_food_together%>%
-mutate(total_cook_time=as.numeric(cook_time)+as.numeric(prep_time))
+  mutate(cook_time=as.numeric(cook_time), prep_time=as.numeric(prep_time)) %>% 
+  mutate(total_cook_time=cook_time+prep_time)
+
 
 indian_food_together
 ```
@@ -258,7 +263,7 @@ agr_diet %>%
  filter(crop!="NA") %>% 
   filter(total_cook_time!="NA") %>% 
   ggplot(aes(x=crop, y=total_cook_time, fill=crop))+geom_boxplot(color="white", alpha=.4, na.rm = TRUE)+
-  geom_violin(alpha=.7, na.rm=TRUE)+ coord_flip()
+  geom_violin(alpha=.7, na.rm=TRUE)+ ylim(0,180)+coord_flip()
 ```
 
 
