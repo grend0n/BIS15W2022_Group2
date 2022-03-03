@@ -39,6 +39,7 @@ library(janitor)
 library(here)
 library(naniar)
 library(gapminder)
+library(shinydashboard)
 ```
 
 
@@ -200,7 +201,20 @@ indian_food%>%
 
 6. What diet is more associated with which region/state?
 ```{r}
+indian_food%>%
+filter(!is.na(state), !is.na(region))%>%
+  group_by(state, diet)%>%
+  summarise(n=n())%>%
+arrange(desc(n))
+```
 
+```{r}
+diet_region<-indian_food%>%
+select("region", "diet")%>%
+  filter(!is.na(region))%>%
+  count(region, diet)%>%
+  arrange(desc(n))
+diet_region
 ```
 
 7. What flavor profile is more associated with which region/state?
@@ -220,7 +234,37 @@ flavor_state
 
 8. What is the population growth, GDP growth, and life expectancy of India (use gapminder data)?
 ```{r}
+gapminder
+```
 
+```{r}
+india_gapminder<-gapminder%>%
+filter(country=="India")
+india_gapminder
+```
+
+```{r,eval=F, echo=T}
+ui <- dashboardPage(
+  dashboardHeader(title = "India Gapminder"), 
+  dashboardSidebar(disable = T),
+  dashboardBody(
+    fluidRow(box(title = "Options", width = 5, 
+               selectInput("y", "Information", choices = c("lifeExp","pop","gdpPercap"), selected = "lifeExp")
+               ),
+  plotOutput("plot", width = "500px", height = "400px"))
+    )
+  )
+               
+
+server <- function(input, output, session) { 
+  output$plot <- renderPlot({
+  india_gapminder%>%
+  ggplot(aes_string(x=india_gapminder$year, y=input$y, group=1))+
+  geom_line()+
+  theme(axis.text.x = element_text( hjust = 0.5, size = 8))
+  }) 
+}
+shinyApp(ui, server)
 ```
 
 9. What is the distribution of courses (e.g. main courses, snacks, dessert)?
@@ -265,6 +309,7 @@ agr_diet %>%
 **Shiny App
 ```{r}
 library(shiny)
+library(DT)
 ui <- basicPage(
   h2("Indian Food Cookbook"),
   DT::dataTableOutput("mytable")
@@ -276,7 +321,7 @@ server <- function(input, output) {
   })
 }
   
-
+shinyApp(ui,server)
 ```
 
 ```{r}
