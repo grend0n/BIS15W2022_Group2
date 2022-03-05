@@ -349,7 +349,7 @@ mainPanel(
 server <- function(input, output) {
   indian_food=indian_food[sample(nrow(indian_food), 1000),]
   output$mytable = DT::renderDataTable({
-    DT::datatable(indian_food[,input$show_vars, drop=FALSE])
+    DT::datatable(indian_food[,input$show_vars, drop=FALSE], options=list(orderClasses=TRUE))
   })
 }
   
