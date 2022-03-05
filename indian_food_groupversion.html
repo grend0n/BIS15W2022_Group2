@@ -587,20 +587,24 @@ shinyApp(ui,server)</code></pre>
 library(DT)
 library(ggplot2)
 ui &lt;- fluidPage(
-  title=&quot;Indian Food Cookbook&quot;,
+  titlePanel(&quot;Welcome to the Indian Food E-Cookbook&quot;),
   sidebarLayout(
     sidebarPanel(
-      checkboxGroupInput(&quot;show_vars&quot;, &quot;Columns in Indian Food&quot;, names(indian_food), selected=names(indian_food))
-    ), 
+      checkboxGroupInput(&quot;show_vars&quot;, &quot;Select What You Want To Find&quot;, names(indian_food), selected=names(indian_food))
+    ), helpText(&quot;Welcome to the Indian Food E-Cookbook! Indian cuisine consists of a variety of regional and traditional cuisines native to the Indian subcontinent. Given the diversity in soil, climate, culture, ethnic groups, and occupations, these cuisines vary substantially and use locally available spices, herbs, vegetables, and fruits. Indian food is also heavily influenced by religion, in particular Hinduism, cultural choices and traditions.
+
+This dataset consists of information about various Indian dishes, their ingredients, their place of origin, etc.                                                     
+
+Reference: Neha Prabhavalkar [https://www.kaggle.com/nehaprabhavalkar/indian-food-101]&quot;)),
 mainPanel(
   id=&#39;indian_food&#39;, 
   tabPanel(&quot;indian food&quot;, DT::dataTableOutput(&quot;mytable&quot;))
   )
-))
+)
 
 
 server &lt;- function(input, output) {
-  indian_food=indian_food[sample(nrow(indian_food), 1000),]
+  indian_food=indian_food[sample(nrow(indian_food), 1136),]
   output$mytable = DT::renderDataTable({
     DT::datatable(indian_food[,input$show_vars, drop=FALSE], options=list(orderClasses=TRUE))
   })
