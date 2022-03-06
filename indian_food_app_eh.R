@@ -1,4 +1,8 @@
 
+library(janitor)
+library(tidyverse)
+library(here)
+
 indian_food<- read_csv(here("indian_food_data.csv"))%>% 
   clean_names()%>%
   na_if("-1")%>%
