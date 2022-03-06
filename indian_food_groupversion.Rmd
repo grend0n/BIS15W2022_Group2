@@ -93,7 +93,7 @@ indian_food<-indian_food%>%
 indian_food
 ```
 ##Section Two: Questions about the data.
-1. Does it take more or less time to cook vegetarian versus non-vegetarian dishes?
+1. Does it take more or less time to cook vegetarian versus non-vegetarian dishes? ELLYN
 ```{r}
 indian_food_together<- read_csv(here("indian_food_data.csv"))%>% clean_names()
 
@@ -140,7 +140,7 @@ v_nv_plot <- v_nv_long %>%
   ggplot(aes(x=time, y=cook_time, fill=diet))+geom_col(position = "dodge")
 v_nv_plot + theme_clean()+scale_fill_brewer(palette = "Spectral")
 ```
-2. For each diet, vegetarian and non-vegetarian, identify which dish takes the most and least amount of total cook time, prep time, and cook time.
+2. For each diet, vegetarian and non-vegetarian, identify which dish takes the most and least amount of total cook time, prep time, and cook time. ELLYN
 ```{r}
 indian_food_together %>% 
   filter(diet == "non vegetarian") %>% 
@@ -163,7 +163,7 @@ indian_food_together %>%
 ```
 
 
-3. What is the relationship between flavor and diet (i.e. is there more spicy dishes in non-vegetarian compared to vegetarian?)
+3. What is the relationship between flavor and diet (i.e. is there more spicy dishes in non-vegetarian compared to vegetarian?) RACHEL
 ```{r}
 flavor_diet <- indian_food %>% 
   filter(!is.na(flavor_profile)) %>%
@@ -176,13 +176,14 @@ flavor_diet <- indian_food %>%
 flavor_diet
 ```
 
-4. Which ingredient is used the most for each region/state?
+4. Which ingredient is used the most for each region? EMILY
 ```{r}
 indian_food%>%
   select(region, ingredients)%>%
   group_by(region)%>%
   count(ingredients)%>%
-  arrange(desc(n))
+  arrange(desc(n))%>%
+  filter(region=="central")
 ```
 
 ```{r}
@@ -193,7 +194,7 @@ indian_food%>%
   arrange(desc(n))
 ```
 
-5. What ingredient is used the most out of all the courses? What is the % of ingredient in all recipes. 
+5. What ingredient is used the most out of all the courses? EMILY
 ```{r}
 indian_food%>%
   select(ingredients,name)%>%
@@ -202,12 +203,12 @@ indian_food%>%
   head(n=5)
 ```
 
-6. What diet is more associated with which region/state?
+6. What diet is more associated with which region/state? GABE
 ```{r}
 
 ```
 
-7. What flavor profile is more associated with which region/state?
+7. What flavor profile is more associated with which region/state? EMILY
 ```{r}
 flavor_state <- indian_food %>% 
   filter(!is.na(flavor_profile)) %>%
@@ -222,33 +223,19 @@ flavor_state <- indian_food %>%
 flavor_state
 ```
 
-```{r}
-flavor_region <- indian_food %>% 
-  filter(!is.na(flavor_profile)) %>%
-  filter(!is.na(region)) %>%
-  ggplot(aes(x=region, fill=flavor_profile))+
-  geom_bar(na.rm=T, position="dodge",alpha=0.75, color="black") +
-  labs(title = "Flavor in Relationship to Region",
-       x = "Region",
-       y = "Count") +
-  theme(plot.title = element_text(size = rel(1.0), hjust = 0.5)) +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
-flavor_region
-```
-
-8. What is the population growth, GDP growth, and life expectancy of India (use gapminder data)?
+8. What is the population growth, GDP growth, and life expectancy of India (use gapminder data)? GABE
 ```{r}
 
 ```
 
-9. What is the distribution of courses (e.g. main courses, snacks, dessert)?
+9. What is the distribution of courses (e.g. main courses, snacks, dessert)? EMILY
 ```{r}
 indian_food%>%
-  ggplot(aes(x=course, fill=course))+geom_bar()
+  ggplot(aes(x=course, fill=course))+geom_bar()+theme_clean()+scale_fill_brewer(palette = "Spectral")+labs(title="Distribution of Courses", x="Course", y="Count")
 ```
 
 
-  10. Does agriculture by region have an impact on diet?
+  10. Does agriculture by region have an impact on diet? Ellyn
 
 ## We started by uploading the data on agriculture and cleaning it up.
 ```{r}
@@ -269,7 +256,7 @@ agr_diet <- full_join(indian_food_together, agriculture, by="state")
 agr_diet
 ```
 
-## Does the specialty crop have an impact on the total cook time?
+## Does the specialty crop have an impact on the total cook time? 
 ```{r}
 agr_diet_plot <- agr_diet %>% 
  filter(crop!="NA") %>% 
@@ -280,22 +267,7 @@ agr_diet_plot+theme_clean()+scale_fill_brewer(palette = "Spectral")
 ```
 
 
-**Shiny App
-```{r}
-library(shiny)
-ui <- basicPage(
-  h2("Indian Food Cookbook"),
-  DT::dataTableOutput("mytable")
-)
-
-server <- function(input, output) {
-  output$mytable = DT::renderDataTable({
-    indian_food
-  })
-}
-  
-
-```
+**Shiny App EMILY
 
 ```{r}
 library(shiny)
