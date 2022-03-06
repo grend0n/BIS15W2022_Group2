@@ -227,7 +227,7 @@ diet_region%>%
   scale_fill_brewer(palette="Spectral")
 ```
 
-7. What flavor profile is more associated with which region/state? EMILY
+7. What flavor profile is more associated with which region/state? RACHEL
 ```{r}
 flavor_state <- indian_food %>% 
   filter(!is.na(flavor_profile)) %>%
