@@ -138,7 +138,7 @@ v_nv_long
 ```{r}
 v_nv_plot <- v_nv_long %>% 
   ggplot(aes(x=time, y=cook_time, fill=diet))+geom_col(position = "dodge")
-v_nv_plot + theme_clean()+scale_fill_brewer(palette = "Spectral")
+v_nv_plot + theme_clean()+scale_fill_brewer(palette = "Spectral")+labs(title="Total Cook Time", x="Diet", y="Total Cook Time")
 ```
 2. For each diet, vegetarian and non-vegetarian, identify which dish takes the most and least amount of total cook time, prep time, and cook time. ELLYN
 ```{r}
