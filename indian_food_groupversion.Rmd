@@ -39,6 +39,7 @@ library(janitor)
 library(here)
 library(naniar)
 library(gapminder)
+library(shinydashboard)
 library(ggthemes)
 ```
 
@@ -205,7 +206,24 @@ indian_food%>%
 
 6. What diet is more associated with which region/state? GABE
 ```{r}
+diet_region<-indian_food%>%
+select("region", "diet")%>%
+  filter(!is.na(region))
+  #count(region, diet)%>%
+  #arrange(desc(n))
+diet_region
+```
 
+```{r}
+diet_region%>%
+ ggplot(aes(x=region, fill=diet))+
+  geom_bar(na.rm=T, position="dodge", color="black") +
+  labs(title = "Favored Diet by Region",
+       x = "Region",
+       y = "Count") +
+  theme(plot.title = element_text(size = rel(1.5), hjust = 0.5))+
+   theme(axis.text.x = element_text(hjust = 0.5))+
+  scale_fill_brewer(palette="Spectral")
 ```
 
 7. What flavor profile is more associated with which region/state? EMILY
@@ -225,7 +243,41 @@ flavor_state
 
 8. What is the population growth, GDP growth, and life expectancy of India (use gapminder data)? GABE
 ```{r}
+gapminder
+```
 
+```{r}
+india_gapminder<-gapminder%>%
+filter(country=="India")
+india_gapminder
+```
+
+```{r}
+ui <- dashboardPage(
+  dashboardHeader(title = "India Gapminder"), 
+  dashboardSidebar(disable = T),
+  dashboardBody(
+    fluidRow(box(title = "Options", width = 5, 
+               selectInput("y", "Information", choices = c("lifeExp","pop","gdpPercap"), selected = "lifeExp")
+               ),
+  plotOutput("plot", width = "650px", height = "550px"))
+    )
+)
+               
+
+server <- function(input, output, session) { 
+  output$plot <- renderPlot({
+  india_gapminder%>%
+  ggplot(aes_string(x=india_gapminder$year, y=input$y, group=1))+
+  geom_line()+
+  theme(axis.text.x = element_text( hjust = 0.5, size = 12))+
+      labs( title = "Background Information on India",
+       x ="Year",
+       y= NULL,
+       fill= "Information")
+  }) 
+}
+shinyApp(ui, server)
 ```
 
 9. What is the distribution of courses (e.g. main courses, snacks, dessert)? EMILY
@@ -235,7 +287,7 @@ indian_food%>%
 ```
 
 
-  10. Does agriculture by region have an impact on diet? Ellyn
+10. Does agriculture by region have an impact on diet? Ellyn
 
 ## We started by uploading the data on agriculture and cleaning it up.
 ```{r}
@@ -268,7 +320,6 @@ agr_diet_plot+theme_clean()+scale_fill_brewer(palette = "Spectral")
 
 
 **Shiny App EMILY
-
 ```{r}
 library(shiny)
 library(DT)
