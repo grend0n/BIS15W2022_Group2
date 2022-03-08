@@ -3,9 +3,7 @@ html_document:
   keep_md: yes
 author: "Emily, Ellyn, Rachel, Gabe"
 date: "2/17/2022"
-output:
-  html_document:
-    df_print: paged
+output: html_notebook
 title: "Indian Food Cookbook"
 editor_options:
   chunk_output_type: inline
