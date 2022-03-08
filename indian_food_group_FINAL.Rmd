@@ -1,0 +1,346 @@
+---
+title: "Indian Food"
+author: "Emily, Ellyn, Gabe, Rachel"
+date: "3/7/2022"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+##Background of Project
+
+Welcome to the Exploring India Cookbook, this an e-cook book that will allow you to select different dishes you would like to make depending on your diet, amount of time you have, the course you would like to make, or based on the region. 
+
+This project is separated into three parts:
+Section 1: Loading and Cleaning the Data
+Section 2: Questions about the data
+Section 3: Exploring India Cookbook App
+
+
+## Section 1:
+
+This section illustrates how we loaded the data, assessed the data structure, and cleaned the data. 
+_Load Library_
+
+```{r}
+library(tidyverse)
+library(RColorBrewer)
+library(paletteer)
+library(janitor)
+library(here)
+library(naniar)
+library(gapminder)
+library(shinydashboard)
+library(ggthemes)
+library(shiny)
+```
+
+
+a. Load the data. 
+```{r}
+indian_food<- read_csv(here("indian_food_data.csv"))%>% clean_names()
+
+```
+b. Structure of the data. 
+```{r}
+glimpse(indian_food)
+```
+
+```{r}
+summary(indian_food)
+```
+c. What are the variables? 
+```{r}
+names(indian_food)
+```
+
+d. Dealing with NA's
+
+_NA's in data is symbolized by a "-1"_
+```{r}
+indian_food<-indian_food%>%
+  na_if("-1")
+```
+
+Counting Number of NA's
+```{r}
+naniar::miss_var_summary(indian_food)
+
+```
+e. Split Ingredients Into Their Own Row
+
+We noticed that the ingredients were listed in one row, so we separated them into their own rows. 
+
+```{r}
+indian_food<-indian_food%>%
+  mutate_all(tolower)%>%
+  transform(ingredients=str_split(ingredients,","))%>%
+  unnest(ingredients)
+indian_food
+```
+
+f. Adding Total Cook Time column which combines cook time and prep time. 
+```{r}
+indian_food<-indian_food%>%
+  mutate(total_cook_time=as.numeric(cook_time)+as.numeric(prep_time))
+indian_food
+```
+## Section Two: Questions about the data.
+1. Does it take more or less time to cook vegetarian versus non-vegetarian dishes? ELLYN
+```{r}
+indian_food_together<- read_csv(here("indian_food_data.csv"))%>% clean_names()
+
+indian_food_together <- indian_food_together %>% 
+  mutate_all(tolower)
+
+indian_food_together <-indian_food_together%>%
+  na_if("-1")
+
+indian_food_together <- indian_food_together%>%
+  mutate(cook_time=as.numeric(cook_time), prep_time=as.numeric(prep_time)) %>% 
+  mutate(total_cook_time=cook_time+prep_time)
+
+
+indian_food_together
+```
+
+
+```{r}
+indian_food_together %>% 
+  filter(!is.na(total_cook_time)) %>% 
+ group_by(diet) %>% 
+summarize(mean_total_time = mean(total_cook_time))
+```
+
+```{r}
+v_nv <- indian_food_together %>% 
+   filter(!is.na(total_cook_time)) %>% 
+  group_by(diet) %>% 
+ summarize(mean_total_time = mean(total_cook_time),
+          min_total_time = min(total_cook_time),
+          max_total_time = max(total_cook_time))
+v_nv
+```
+
+
+```{r}
+v_nv_long <- v_nv%>%
+pivot_longer(-diet, names_to ="time", values_to="cook_time")
+v_nv_long
+```
+```{r}
+v_nv_plot <- v_nv_long %>% 
+  ggplot(aes(x=time, y=cook_time, fill=diet))+geom_col(position = "dodge")
+v_nv_plot + theme_clean()+scale_fill_brewer(palette = "Spectral")+labs(title="Total Cook Time", x="Diet", y="Total Cook Time")
+```
+2. For each diet, vegetarian and non-vegetarian, identify which dish takes the most and least amount of total cook time, prep time, and cook time. ELLYN
+```{r}
+indian_food_together %>% 
+  filter(diet == "non vegetarian") %>% 
+  filter(total_cook_time == 20) 
+
+indian_food_together %>% 
+  filter(diet == "non vegetarian") %>% 
+  filter(total_cook_time == 270) 
+```
+
+
+```{r}
+indian_food_together %>% 
+  filter(diet == "vegetarian") %>% 
+  filter(total_cook_time == 730)
+
+indian_food_together %>% 
+ filter(diet == "vegetarian") %>% 
+  filter(total_cook_time == 10)
+```
+
+
+3. What is the relationship between flavor and diet (i.e. is there more spicy dishes in non-vegetarian compared to vegetarian?) RACHEL
+```{r}
+flavor_diet <- indian_food %>% 
+  filter(!is.na(flavor_profile)) %>%
+  ggplot(aes(x=diet, fill=flavor_profile))+
+  geom_bar(na.rm=T, position="dodge",alpha=0.75, color="black") +
+  labs(title = "Flavor in Relationship to Diet",
+       x = "Diet",
+       y = "Count") +
+  theme(plot.title = element_text(size = rel(1.5), hjust = 0.5))
+flavor_diet
+```
+
+4. Which ingredient is used the most for each region? EMILY
+```{r}
+indian_food%>%
+  select(region, ingredients)%>%
+  group_by(region)%>%
+  count(ingredients)%>%
+  arrange(desc(n))
+```
+
+
+5. What ingredient is used the most out of all the courses? EMILY
+```{r}
+indian_food%>%
+  select(ingredients,name)%>%
+  count(ingredients)%>%
+  arrange(desc(n))%>%
+  head(n=5)
+```
+
+6. What diet is more associated with which region/state? GABE
+```{r}
+diet_region<-indian_food%>%
+select("region", "diet")%>%
+  filter(!is.na(region))
+  #count(region, diet)%>%
+  #arrange(desc(n))
+diet_region
+```
+
+```{r}
+diet_region%>%
+ ggplot(aes(x=region, fill=diet))+
+  geom_bar(na.rm=T, position="dodge", color="black") +
+  labs(title = "Favored Diet by Region",
+       x = "Region",
+       y = "Count") +
+  theme(plot.title = element_text(size = rel(1.5), hjust = 0.5))+
+   theme(axis.text.x = element_text(hjust = 0.5))+
+  scale_fill_brewer(palette="Spectral")
+```
+
+7. What flavor profile is more associated with which region/state? RACHEL
+```{r}
+flavor_state <- indian_food %>% 
+  filter(!is.na(flavor_profile)) %>%
+  filter(!is.na(state)) %>%
+  ggplot(aes(x=state, fill=flavor_profile))+
+  geom_bar(na.rm=T, position="dodge",alpha=0.75, color="black") +
+  labs(title = "Flavor in Relationship to State",
+       x = "State",
+       y = "Count") +
+  theme(plot.title = element_text(size = rel(1.0), hjust = 0.5))+
+   theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
+flavor_state
+```
+
+8. What is the population growth, GDP growth, and life expectancy of India (use gapminder data)? GABE
+```{r}
+gapminder
+```
+
+```{r}
+india_gapminder<-gapminder%>%
+filter(country=="India")
+india_gapminder
+```
+
+```{r}
+ui <- dashboardPage(
+  dashboardHeader(title = "India Gapminder"), 
+  dashboardSidebar(disable = T),
+  dashboardBody(
+    fluidRow(box(title = "Options", width = 5, 
+               selectInput("y", "Information", choices = c("lifeExp","pop","gdpPercap"), selected = "lifeExp")
+               ),
+  plotOutput("plot", width = "650px", height = "550px"))
+    )
+)
+               
+
+server <- function(input, output, session) { 
+  output$plot <- renderPlot({
+  india_gapminder%>%
+  ggplot(aes_string(x=india_gapminder$year, y=input$y, group=1))+
+  geom_line()+
+  theme(axis.text.x = element_text( hjust = 0.5, size = 12))+
+      labs( title = "Background Information on India",
+       x ="Year",
+       y= NULL,
+       fill= "Information")
+  }) 
+}
+shinyApp(ui, server)
+```
+
+9. What is the distribution of courses (e.g. main courses, snacks, dessert)? EMILY
+```{r}
+indian_food%>%
+  ggplot(aes(x=course, fill=course))+geom_bar()+theme_clean()+scale_fill_brewer(palette = "Spectral")+labs(title="Distribution of Courses", x="Course", y="Count")
+```
+
+
+10. Does agriculture by region have an impact on diet? Ellyn
+
+a. We started by uploading the data on agriculture and cleaning it up.
+```{r}
+agriculture <-  read_csv(here("agriculture.csv"))%>% clean_names()
+
+agriculture <- agriculture %>% 
+  mutate_all(tolower)
+
+agriculture <- agriculture %>% 
+  select("crop", "state")
+
+agriculture
+```
+
+b. Both datasets shared a similar region column, which we used to merge the two.
+```{r}
+agr_diet <- full_join(indian_food_together, agriculture, by="state")
+agr_diet
+```
+
+c. Does the specialty crop have an impact on the total cook time? 
+```{r}
+agr_diet_plot <- agr_diet %>% 
+ filter(crop!="NA") %>% 
+  filter(total_cook_time!="NA") %>% 
+  ggplot(aes(x=crop, y=total_cook_time, fill=crop))+geom_boxplot(color="white", alpha=.4, na.rm = TRUE)+
+  geom_violin(alpha=.7, na.rm=TRUE)+ ylim(0,180)+coord_flip()
+agr_diet_plot+theme_clean()+scale_fill_brewer(palette = "Spectral")
+```
+
+## Section Three: Exploring Indian Food E-Cookbook App
+Shiny App EMILY
+```{r}
+library(shiny)
+library(DT)
+library(ggplot2)
+
+ui <- fluidPage(
+  titlePanel("Welcome to the Indian Food E-Cookbook"),
+  sidebarLayout(
+    sidebarPanel(
+      checkboxGroupInput("show_vars", "Select What You Want To Find", names(indian_food), selected=names(indian_food))
+    ), helpText("Welcome to the Indian Food E-Cookbook! Indian cuisine consists of a variety of regional and traditional cuisines native to the Indian subcontinent. Given the diversity in soil, climate, culture, ethnic groups, and occupations, these cuisines vary substantially and use locally available spices, herbs, vegetables, and fruits. Indian food is also heavily influenced by religion, in particular Hinduism, cultural choices and traditions.
+
+This dataset consists of information about various Indian dishes, their ingredients, their place of origin, etc.                                                     
+
+Reference: Neha Prabhavalkar [https://www.kaggle.com/nehaprabhavalkar/indian-food-101]")),
+  mainPanel(
+    id='indian_food', 
+    tabPanel("indian food", DT::dataTableOutput("mytable"))
+  )
+)
+
+
+server <- function(input, output) {
+  indian_food=indian_food[sample(nrow(indian_food), 1136),]
+  output$mytable = DT::renderDataTable({
+    DT::datatable(indian_food[,input$show_vars, drop=FALSE], options=list(orderClasses=TRUE))
+  })
+}
+
+
+
+shinyApp(ui,server)
+```
+
+
