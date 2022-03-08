@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-##Background of Project
+## Background of Project
 
 Welcome to the Exploring India Cookbook, this an e-cook book that will allow you to select different dishes you would like to make depending on your diet, amount of time you have, the course you would like to make, or based on the region. 
 
