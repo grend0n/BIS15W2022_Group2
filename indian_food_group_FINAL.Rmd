@@ -170,7 +170,8 @@ flavor_diet <- indian_food %>%
   labs(title = "Flavor in Relationship to Diet",
        x = "Diet",
        y = "Count") +
-  theme(plot.title = element_text(size = rel(1.5), hjust = 0.5))
+  theme(axis.text.x = element_text(size = rel(1.5), hjust = 1))+
+   theme()+scale_fill_brewer(palette = "Spectral") 
 flavor_diet
 ```
 
@@ -225,9 +226,23 @@ flavor_state <- indian_food %>%
   labs(title = "Flavor in Relationship to State",
        x = "State",
        y = "Count") +
-  theme(plot.title = element_text(size = rel(1.0), hjust = 0.5))+
-   theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+   theme()+scale_fill_brewer(palette = "Spectral") 
 flavor_state
+```
+
+```{r}
+flavor_region <- indian_food %>% 
+  filter(!is.na(flavor_profile)) %>%
+  filter(!is.na(region)) %>%
+  ggplot(aes(x=region, fill=flavor_profile))+
+  geom_bar(na.rm=T, position="dodge",alpha=0.75, color="black") +
+  labs(title = "Flavor in Relationship to Region",
+       x = "Region",
+       y = "Count") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+   theme()+scale_fill_brewer(palette = "Spectral") 
+flavor_region
 ```
 
 8. What is the population growth, GDP growth, and life expectancy of India (use gapminder data)? GABE

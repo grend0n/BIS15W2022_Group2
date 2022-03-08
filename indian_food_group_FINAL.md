@@ -31,18 +31,18 @@ library(tidyverse)
 ```
 
 ```
-## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
 ```
 
 ```
-## v ggplot2 3.3.5     v purrr   0.3.4
-## v tibble  3.1.6     v dplyr   1.0.8
-## v tidyr   1.2.0     v stringr 1.4.0
-## v readr   2.1.2     v forcats 0.5.1
+## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.6     ✓ dplyr   1.0.8
+## ✓ tidyr   1.2.0     ✓ stringr 1.4.0
+## ✓ readr   2.1.2     ✓ forcats 0.5.1
 ```
 
 ```
-## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
 ```
@@ -69,7 +69,7 @@ library(here)
 ```
 
 ```
-## here() starts at C:/Users/Emily/Desktop/GitHub/BIS15W2022_Group2
+## here() starts at /Users/rachel/Desktop/BIS15W2022_Group2
 ```
 
 ```r
@@ -103,13 +103,13 @@ indian_food<- read_csv(here("indian_food_data.csv"))%>% clean_names()
 
 ```
 ## Rows: 255 Columns: 9
-## -- Column specification --------------------------------------------------------
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (7): name, ingredients, diet, flavor_profile, course, state, region
 ## dbl (2): prep_time, cook_time
 ## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 b. Structure of the data. 
 
@@ -120,15 +120,15 @@ glimpse(indian_food)
 ```
 ## Rows: 255
 ## Columns: 9
-## $ name           <chr> "Balu shahi", "Boondi", "Gajar ka halwa", "Ghevar", "Gu~
-## $ ingredients    <chr> "Maida flour, yogurt, oil, sugar", "Gram flour, ghee, s~
-## $ diet           <chr> "vegetarian", "vegetarian", "vegetarian", "vegetarian",~
-## $ prep_time      <dbl> 45, 80, 15, 15, 15, 10, 10, 10, 20, 10, 10, 5, 20, 10, ~
-## $ cook_time      <dbl> 25, 30, 60, 30, 40, 50, 50, 20, 30, 40, 40, 5, 30, 30, ~
-## $ flavor_profile <chr> "sweet", "sweet", "sweet", "sweet", "sweet", "sweet", "~
-## $ course         <chr> "dessert", "dessert", "dessert", "dessert", "dessert", ~
-## $ state          <chr> "West Bengal", "Rajasthan", "Punjab", "Rajasthan", "Wes~
-## $ region         <chr> "East", "West", "North", "West", "East", "East", "North~
+## $ name           <chr> "Balu shahi", "Boondi", "Gajar ka halwa", "Ghevar", "Gu…
+## $ ingredients    <chr> "Maida flour, yogurt, oil, sugar", "Gram flour, ghee, s…
+## $ diet           <chr> "vegetarian", "vegetarian", "vegetarian", "vegetarian",…
+## $ prep_time      <dbl> 45, 80, 15, 15, 15, 10, 10, 10, 20, 10, 10, 5, 20, 10, …
+## $ cook_time      <dbl> 25, 30, 60, 30, 40, 50, 50, 20, 30, 40, 40, 5, 30, 30, …
+## $ flavor_profile <chr> "sweet", "sweet", "sweet", "sweet", "sweet", "sweet", "…
+## $ course         <chr> "dessert", "dessert", "dessert", "dessert", "dessert", …
+## $ state          <chr> "West Bengal", "Rajasthan", "Punjab", "Rajasthan", "Wes…
+## $ region         <chr> "East", "West", "North", "West", "East", "East", "North…
 ```
 
 
@@ -187,7 +187,7 @@ naniar::miss_var_summary(indian_food)
 ```
 
 ```
-## # A tibble: 9 x 3
+## # A tibble: 9 × 3
 ##   variable       n_miss pct_miss
 ##   <chr>           <int>    <dbl>
 ## 1 prep_time          30    11.8 
@@ -214,20 +214,20 @@ indian_food
 ```
 
 ```
-## # A tibble: 1,136 x 9
+## # A tibble: 1,136 × 9
 ##    name        ingredients diet  prep_time cook_time flavor_profile course state
 ##    <chr>       <chr>       <chr> <chr>     <chr>     <chr>          <chr>  <chr>
-##  1 balu shahi  "maida flo~ vege~ 45        25        sweet          desse~ west~
-##  2 balu shahi  " yogurt"   vege~ 45        25        sweet          desse~ west~
-##  3 balu shahi  " oil"      vege~ 45        25        sweet          desse~ west~
-##  4 balu shahi  " sugar"    vege~ 45        25        sweet          desse~ west~
-##  5 boondi      "gram flou~ vege~ 80        30        sweet          desse~ raja~
-##  6 boondi      " ghee"     vege~ 80        30        sweet          desse~ raja~
-##  7 boondi      " sugar"    vege~ 80        30        sweet          desse~ raja~
-##  8 gajar ka h~ "carrots"   vege~ 15        60        sweet          desse~ punj~
-##  9 gajar ka h~ " milk"     vege~ 15        60        sweet          desse~ punj~
-## 10 gajar ka h~ " sugar"    vege~ 15        60        sweet          desse~ punj~
-## # ... with 1,126 more rows, and 1 more variable: region <chr>
+##  1 balu shahi  "maida flo… vege… 45        25        sweet          desse… west…
+##  2 balu shahi  " yogurt"   vege… 45        25        sweet          desse… west…
+##  3 balu shahi  " oil"      vege… 45        25        sweet          desse… west…
+##  4 balu shahi  " sugar"    vege… 45        25        sweet          desse… west…
+##  5 boondi      "gram flou… vege… 80        30        sweet          desse… raja…
+##  6 boondi      " ghee"     vege… 80        30        sweet          desse… raja…
+##  7 boondi      " sugar"    vege… 80        30        sweet          desse… raja…
+##  8 gajar ka h… "carrots"   vege… 15        60        sweet          desse… punj…
+##  9 gajar ka h… " milk"     vege… 15        60        sweet          desse… punj…
+## 10 gajar ka h… " sugar"    vege… 15        60        sweet          desse… punj…
+## # … with 1,126 more rows, and 1 more variable: region <chr>
 ```
 
 f. Adding Total Cook Time column which combines cook time and prep time. 
@@ -239,20 +239,20 @@ indian_food
 ```
 
 ```
-## # A tibble: 1,136 x 10
+## # A tibble: 1,136 × 10
 ##    name        ingredients diet  prep_time cook_time flavor_profile course state
 ##    <chr>       <chr>       <chr> <chr>     <chr>     <chr>          <chr>  <chr>
-##  1 balu shahi  "maida flo~ vege~ 45        25        sweet          desse~ west~
-##  2 balu shahi  " yogurt"   vege~ 45        25        sweet          desse~ west~
-##  3 balu shahi  " oil"      vege~ 45        25        sweet          desse~ west~
-##  4 balu shahi  " sugar"    vege~ 45        25        sweet          desse~ west~
-##  5 boondi      "gram flou~ vege~ 80        30        sweet          desse~ raja~
-##  6 boondi      " ghee"     vege~ 80        30        sweet          desse~ raja~
-##  7 boondi      " sugar"    vege~ 80        30        sweet          desse~ raja~
-##  8 gajar ka h~ "carrots"   vege~ 15        60        sweet          desse~ punj~
-##  9 gajar ka h~ " milk"     vege~ 15        60        sweet          desse~ punj~
-## 10 gajar ka h~ " sugar"    vege~ 15        60        sweet          desse~ punj~
-## # ... with 1,126 more rows, and 2 more variables: region <chr>,
+##  1 balu shahi  "maida flo… vege… 45        25        sweet          desse… west…
+##  2 balu shahi  " yogurt"   vege… 45        25        sweet          desse… west…
+##  3 balu shahi  " oil"      vege… 45        25        sweet          desse… west…
+##  4 balu shahi  " sugar"    vege… 45        25        sweet          desse… west…
+##  5 boondi      "gram flou… vege… 80        30        sweet          desse… raja…
+##  6 boondi      " ghee"     vege… 80        30        sweet          desse… raja…
+##  7 boondi      " sugar"    vege… 80        30        sweet          desse… raja…
+##  8 gajar ka h… "carrots"   vege… 15        60        sweet          desse… punj…
+##  9 gajar ka h… " milk"     vege… 15        60        sweet          desse… punj…
+## 10 gajar ka h… " sugar"    vege… 15        60        sweet          desse… punj…
+## # … with 1,126 more rows, and 2 more variables: region <chr>,
 ## #   total_cook_time <dbl>
 ```
 ## Section Two: Questions about the data.
@@ -264,13 +264,13 @@ indian_food_together<- read_csv(here("indian_food_data.csv"))%>% clean_names()
 
 ```
 ## Rows: 255 Columns: 9
-## -- Column specification --------------------------------------------------------
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (7): name, ingredients, diet, flavor_profile, course, state, region
 ## dbl (2): prep_time, cook_time
 ## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ```r
@@ -289,20 +289,20 @@ indian_food_together
 ```
 
 ```
-## # A tibble: 255 x 10
+## # A tibble: 255 × 10
 ##    name        ingredients diet  prep_time cook_time flavor_profile course state
 ##    <chr>       <chr>       <chr>     <dbl>     <dbl> <chr>          <chr>  <chr>
-##  1 balu shahi  maida flou~ vege~        45        25 sweet          desse~ west~
-##  2 boondi      gram flour~ vege~        80        30 sweet          desse~ raja~
-##  3 gajar ka h~ carrots, m~ vege~        15        60 sweet          desse~ punj~
-##  4 ghevar      flour, ghe~ vege~        15        30 sweet          desse~ raja~
-##  5 gulab jamun milk powde~ vege~        15        40 sweet          desse~ west~
-##  6 imarti      sugar syru~ vege~        10        50 sweet          desse~ west~
-##  7 jalebi      maida, cor~ vege~        10        50 sweet          desse~ utta~
-##  8 kaju katli  cashews, g~ vege~        10        20 sweet          desse~ <NA> 
-##  9 kalakand    milk, cott~ vege~        20        30 sweet          desse~ west~
-## 10 kheer       milk, rice~ vege~        10        40 sweet          desse~ <NA> 
-## # ... with 245 more rows, and 2 more variables: region <chr>,
+##  1 balu shahi  maida flou… vege…        45        25 sweet          desse… west…
+##  2 boondi      gram flour… vege…        80        30 sweet          desse… raja…
+##  3 gajar ka h… carrots, m… vege…        15        60 sweet          desse… punj…
+##  4 ghevar      flour, ghe… vege…        15        30 sweet          desse… raja…
+##  5 gulab jamun milk powde… vege…        15        40 sweet          desse… west…
+##  6 imarti      sugar syru… vege…        10        50 sweet          desse… west…
+##  7 jalebi      maida, cor… vege…        10        50 sweet          desse… utta…
+##  8 kaju katli  cashews, g… vege…        10        20 sweet          desse… <NA> 
+##  9 kalakand    milk, cott… vege…        20        30 sweet          desse… west…
+## 10 kheer       milk, rice… vege…        10        40 sweet          desse… <NA> 
+## # … with 245 more rows, and 2 more variables: region <chr>,
 ## #   total_cook_time <dbl>
 ```
 
@@ -316,7 +316,7 @@ summarize(mean_total_time = mean(total_cook_time))
 ```
 
 ```
-## # A tibble: 2 x 2
+## # A tibble: 2 × 2
 ##   diet           mean_total_time
 ##   <chr>                    <dbl>
 ## 1 non vegetarian            81.8
@@ -335,7 +335,7 @@ v_nv
 ```
 
 ```
-## # A tibble: 2 x 4
+## # A tibble: 2 × 4
 ##   diet           mean_total_time min_total_time max_total_time
 ##   <chr>                    <dbl>          <dbl>          <dbl>
 ## 1 non vegetarian            81.8             20            270
@@ -351,7 +351,7 @@ v_nv_long
 ```
 
 ```
-## # A tibble: 6 x 3
+## # A tibble: 6 × 3
 ##   diet           time            cook_time
 ##   <chr>          <chr>               <dbl>
 ## 1 non vegetarian mean_total_time      81.8
@@ -378,11 +378,11 @@ indian_food_together %>%
 ```
 
 ```
-## # A tibble: 1 x 10
+## # A tibble: 1 × 10
 ##   name  ingredients diet  prep_time cook_time flavor_profile course state region
 ##   <chr> <chr>       <chr>     <dbl>     <dbl> <chr>          <chr>  <chr> <chr> 
-## 1 galho rice, axon~ non ~         5        15 spicy          main ~ naga~ north~
-## # ... with 1 more variable: total_cook_time <dbl>
+## 1 galho rice, axon… non …         5        15 spicy          main … naga… north…
+## # … with 1 more variable: total_cook_time <dbl>
 ```
 
 ```r
@@ -392,12 +392,12 @@ indian_food_together %>%
 ```
 
 ```
-## # A tibble: 2 x 10
+## # A tibble: 2 × 10
 ##   name  ingredients diet  prep_time cook_time flavor_profile course state region
 ##   <chr> <chr>       <chr>     <dbl>     <dbl> <chr>          <chr>  <chr> <chr> 
-## 1 tand~ greek yogu~ non ~       240        30 spicy          main ~ punj~ north 
-## 2 tand~ chickpea f~ non ~       240        30 spicy          start~ punj~ north 
-## # ... with 1 more variable: total_cook_time <dbl>
+## 1 tand… greek yogu… non …       240        30 spicy          main … punj… north 
+## 2 tand… chickpea f… non …       240        30 spicy          start… punj… north 
+## # … with 1 more variable: total_cook_time <dbl>
 ```
 
 
@@ -409,11 +409,11 @@ indian_food_together %>%
 ```
 
 ```
-## # A tibble: 1 x 10
+## # A tibble: 1 × 10
 ##   name  ingredients diet  prep_time cook_time flavor_profile course state region
 ##   <chr> <chr>       <chr>     <dbl>     <dbl> <chr>          <chr>  <chr> <chr> 
-## 1 shri~ curd, suga~ vege~        10       720 sweet          desse~ maha~ west  
-## # ... with 1 more variable: total_cook_time <dbl>
+## 1 shri… curd, suga… vege…        10       720 sweet          desse… maha… west  
+## # … with 1 more variable: total_cook_time <dbl>
 ```
 
 ```r
@@ -423,13 +423,13 @@ indian_food_together %>%
 ```
 
 ```
-## # A tibble: 3 x 10
+## # A tibble: 3 × 10
 ##   name  ingredients diet  prep_time cook_time flavor_profile course state region
 ##   <chr> <chr>       <chr>     <dbl>     <dbl> <chr>          <chr>  <chr> <chr> 
-## 1 lassi yogurt, mi~ vege~         5         5 sweet          desse~ punj~ north 
-## 2 papad urad dal, ~ vege~         5         5 spicy          snack  <NA>  <NA>  
-## 3 papa~ lentils, b~ vege~         5         5 spicy          snack  kera~ south 
-## # ... with 1 more variable: total_cook_time <dbl>
+## 1 lassi yogurt, mi… vege…         5         5 sweet          desse… punj… north 
+## 2 papad urad dal, … vege…         5         5 spicy          snack  <NA>  <NA>  
+## 3 papa… lentils, b… vege…         5         5 spicy          snack  kera… south 
+## # … with 1 more variable: total_cook_time <dbl>
 ```
 
 
@@ -443,7 +443,8 @@ flavor_diet <- indian_food %>%
   labs(title = "Flavor in Relationship to Diet",
        x = "Diet",
        y = "Count") +
-  theme(plot.title = element_text(size = rel(1.5), hjust = 0.5))
+  theme(axis.text.x = element_text(size = rel(1.5), hjust = 1))+
+   theme()+scale_fill_brewer(palette = "Spectral") 
 flavor_diet
 ```
 
@@ -460,7 +461,7 @@ indian_food%>%
 ```
 
 ```
-## # A tibble: 685 x 3
+## # A tibble: 685 × 3
 ## # Groups:   region [7]
 ##    region     ingredients         n
 ##    <chr>      <chr>           <int>
@@ -474,7 +475,7 @@ indian_food%>%
 ##  8 north east " mustard oil"      8
 ##  9 south      " sugar"            8
 ## 10 south      "chana dal"         8
-## # ... with 675 more rows
+## # … with 675 more rows
 ```
 
 
@@ -489,7 +490,7 @@ indian_food%>%
 ```
 
 ```
-## # A tibble: 5 x 2
+## # A tibble: 5 × 2
 ##   ingredients         n
 ##   <chr>           <int>
 ## 1 " sugar"           45
@@ -511,7 +512,7 @@ diet_region
 ```
 
 ```
-## # A tibble: 1,072 x 2
+## # A tibble: 1,072 × 2
 ##    region diet      
 ##    <chr>  <chr>     
 ##  1 east   vegetarian
@@ -524,7 +525,7 @@ diet_region
 ##  8 north  vegetarian
 ##  9 north  vegetarian
 ## 10 north  vegetarian
-## # ... with 1,062 more rows
+## # … with 1,062 more rows
 ```
 
 
@@ -553,12 +554,29 @@ flavor_state <- indian_food %>%
   labs(title = "Flavor in Relationship to State",
        x = "State",
        y = "Count") +
-  theme(plot.title = element_text(size = rel(1.0), hjust = 0.5))+
-   theme(axis.text.x = element_text(angle = 60, hjust = 1)) 
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+   theme()+scale_fill_brewer(palette = "Spectral") 
 flavor_state
 ```
 
 ![](indian_food_group_FINAL_files/figure-html/unnamed-chunk-22-1.png)<!-- -->
+
+
+```r
+flavor_region <- indian_food %>% 
+  filter(!is.na(flavor_profile)) %>%
+  filter(!is.na(region)) %>%
+  ggplot(aes(x=region, fill=flavor_profile))+
+  geom_bar(na.rm=T, position="dodge",alpha=0.75, color="black") +
+  labs(title = "Flavor in Relationship to Region",
+       x = "Region",
+       y = "Count") +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+   theme()+scale_fill_brewer(palette = "Spectral") 
+flavor_region
+```
+
+![](indian_food_group_FINAL_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 8. What is the population growth, GDP growth, and life expectancy of India (use gapminder data)? GABE
 
@@ -567,7 +585,7 @@ gapminder
 ```
 
 ```
-## # A tibble: 1,704 x 6
+## # A tibble: 1,704 × 6
 ##    country     continent  year lifeExp      pop gdpPercap
 ##    <fct>       <fct>     <int>   <dbl>    <int>     <dbl>
 ##  1 Afghanistan Asia       1952    28.8  8425333      779.
@@ -580,7 +598,7 @@ gapminder
 ##  8 Afghanistan Asia       1987    40.8 13867957      852.
 ##  9 Afghanistan Asia       1992    41.7 16317921      649.
 ## 10 Afghanistan Asia       1997    41.8 22227415      635.
-## # ... with 1,694 more rows
+## # … with 1,694 more rows
 ```
 
 
@@ -591,7 +609,7 @@ india_gapminder
 ```
 
 ```
-## # A tibble: 12 x 6
+## # A tibble: 12 × 6
 ##    country continent  year lifeExp        pop gdpPercap
 ##    <fct>   <fct>     <int>   <dbl>      <int>     <dbl>
 ##  1 India   Asia       1952    37.4  372000000      547.
@@ -646,7 +664,7 @@ indian_food%>%
   ggplot(aes(x=course, fill=course))+geom_bar()+theme_clean()+scale_fill_brewer(palette = "Spectral")+labs(title="Distribution of Courses", x="Course", y="Count")
 ```
 
-![](indian_food_group_FINAL_files/figure-html/unnamed-chunk-26-1.png)<!-- -->
+![](indian_food_group_FINAL_files/figure-html/unnamed-chunk-27-1.png)<!-- -->
 
 
 10. Does agriculture by region have an impact on diet? Ellyn
@@ -659,13 +677,13 @@ agriculture <-  read_csv(here("agriculture.csv"))%>% clean_names()
 
 ```
 ## Rows: 49 Columns: 6
-## -- Column specification --------------------------------------------------------
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## chr (2): Crop, State
 ## dbl (4): Cost of Cultivation (`/Hectare) A2+FL, Cost of Cultivation (`/Hecta...
 ## 
-## i Use `spec()` to retrieve the full column specification for this data.
-## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ```r
@@ -679,7 +697,7 @@ agriculture
 ```
 
 ```
-## # A tibble: 49 x 2
+## # A tibble: 49 × 2
 ##    crop   state         
 ##    <chr>  <chr>         
 ##  1 arhar  uttar pradesh 
@@ -692,7 +710,7 @@ agriculture
 ##  8 cotton andhra pradesh
 ##  9 cotton gujarat       
 ## 10 cotton haryana       
-## # ... with 39 more rows
+## # … with 39 more rows
 ```
 
 b. Both datasets shared a similar region column, which we used to merge the two.
@@ -703,20 +721,20 @@ agr_diet
 ```
 
 ```
-## # A tibble: 773 x 11
+## # A tibble: 773 × 11
 ##    name        ingredients diet  prep_time cook_time flavor_profile course state
 ##    <chr>       <chr>       <chr>     <dbl>     <dbl> <chr>          <chr>  <chr>
-##  1 balu shahi  maida flou~ vege~        45        25 sweet          desse~ west~
-##  2 boondi      gram flour~ vege~        80        30 sweet          desse~ raja~
-##  3 boondi      gram flour~ vege~        80        30 sweet          desse~ raja~
-##  4 boondi      gram flour~ vege~        80        30 sweet          desse~ raja~
-##  5 boondi      gram flour~ vege~        80        30 sweet          desse~ raja~
-##  6 boondi      gram flour~ vege~        80        30 sweet          desse~ raja~
-##  7 gajar ka h~ carrots, m~ vege~        15        60 sweet          desse~ punj~
-##  8 gajar ka h~ carrots, m~ vege~        15        60 sweet          desse~ punj~
-##  9 gajar ka h~ carrots, m~ vege~        15        60 sweet          desse~ punj~
-## 10 ghevar      flour, ghe~ vege~        15        30 sweet          desse~ raja~
-## # ... with 763 more rows, and 3 more variables: region <chr>,
+##  1 balu shahi  maida flou… vege…        45        25 sweet          desse… west…
+##  2 boondi      gram flour… vege…        80        30 sweet          desse… raja…
+##  3 boondi      gram flour… vege…        80        30 sweet          desse… raja…
+##  4 boondi      gram flour… vege…        80        30 sweet          desse… raja…
+##  5 boondi      gram flour… vege…        80        30 sweet          desse… raja…
+##  6 boondi      gram flour… vege…        80        30 sweet          desse… raja…
+##  7 gajar ka h… carrots, m… vege…        15        60 sweet          desse… punj…
+##  8 gajar ka h… carrots, m… vege…        15        60 sweet          desse… punj…
+##  9 gajar ka h… carrots, m… vege…        15        60 sweet          desse… punj…
+## 10 ghevar      flour, ghe… vege…        15        30 sweet          desse… raja…
+## # … with 763 more rows, and 3 more variables: region <chr>,
 ## #   total_cook_time <dbl>, crop <chr>
 ```
 
@@ -731,7 +749,7 @@ agr_diet_plot <- agr_diet %>%
 agr_diet_plot+theme_clean()+scale_fill_brewer(palette = "Spectral")
 ```
 
-![](indian_food_group_FINAL_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+![](indian_food_group_FINAL_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 
 ## Section Three: Exploring Indian Food E-Cookbook App
 Shiny App EMILY
